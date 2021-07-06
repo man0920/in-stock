@@ -6,7 +6,9 @@ namespace Tests\Feature;
 use App\Product;
 use RetailerWithProductSeeder;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Http;
+use App\Clients\StockStatus;
+use Facades\App\Clients\ClientFactory;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TrackCommandTest extends TestCase
@@ -18,9 +20,11 @@ class TrackCommandTest extends TestCase
     {
         $this->seed(RetailerWithProductSeeder::class);
         $this->assertFalse(Product::first()->inStock());
-        Http::fake(fn() => ['available' => true, 'price' => 29900]);
-        $this->artisan('track')
-            ->expectsOutput('All done!');
-            $this->assertTrue(Product::first()->inStock());
-    }
-}
+        ClientFactory::shouldReceive('make->checkAvailability')
+        ->andReturn(new StockStatus($available = true, $price = 29900));
+
+            $this->artisan('track')
+                        ->expectsOutput('All done!');
+                        $this->assertTrue(Product::first()->inStock());
+                }
+            }
