@@ -14,8 +14,8 @@ class BestBuy implements Client
 
         return new StockStatus(
             $results['onlineAvailability'],
-            (int) $results['salePrice'] * 100
-        );
+            $this->dollarsToCents($results['salePrice'])
+       );
     }
     protected function endpoint($sku): string
     {
@@ -23,4 +23,9 @@ class BestBuy implements Client
 
         return "https://api.bestbuy.com/v1/products/{$sku}.json?apiKey={$key}";
     }
+    protected function dollarsToCents($salePrice)
+    {
+        return (int) ($salePrice * 100);
+    }
 }
+
