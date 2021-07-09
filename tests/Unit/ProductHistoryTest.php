@@ -6,7 +6,6 @@ use App\Stock;
 use App\History;
 use Tests\TestCase;
 use RetailerWithProductSeeder;
-use Facades\App\Clients\ClientFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductHistoryTest extends TestCase
@@ -31,6 +30,4 @@ class ProductHistoryTest extends TestCase
         $this->assertEquals($available, $history->in_stock);
         $this->assertEquals($product->stock[0]->id, $history->stock_id);
     }
-
-}
 }

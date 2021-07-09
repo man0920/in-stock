@@ -5,10 +5,8 @@ namespace Tests\Unit;
 use App\Stock;
 use App\Retailer;
 use Tests\TestCase;
-use App\Clients\StockStatus;
 use RetailerWithProductSeeder;
 use App\Clients\ClientException;
-use Facades\App\Clients\ClientFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StockTest extends TestCase
@@ -26,17 +24,5 @@ class StockTest extends TestCase
 
         Stock::first()->track();
     }
-    function it_updates_local_stock_status_after_being_tracked()
-    {
-        $this->seed(RetailerWithProductSeeder::class);
 
-        $this->mockClientRequest($available = true, $price = 9900);
-
-
-
-        $stock = tap(Stock::first())->track();
-
-        $this->assertTrue($stock->in_stock);
-        $this->assertEquals(9900, $stock->price);
-    }
 }
