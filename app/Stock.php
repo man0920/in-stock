@@ -11,7 +11,7 @@ class Stock extends Model
         'in_stock' => 'boolean'
     ];
 
-    public function track()
+    public function track($callback = null)
     {
         $status = $this->retailer
         ->client()
@@ -20,7 +20,6 @@ class Stock extends Model
             'in_stock' => $status->available,
             'price' => $status->price
         ]);
-
         $this->recordHistory();
     }
 
@@ -31,11 +30,16 @@ class Stock extends Model
             'in_stock' => $this->in_stock,
             'product_id' => $this->product_id
         ]);
-    }
+
+         }
 
     public function retailer()
     {
         return $this->belongsTo(Retailer::class);
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
     public function history()
     {
