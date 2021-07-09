@@ -20,16 +20,7 @@ class Stock extends Model
             'in_stock' => $status->available,
             'price' => $status->price
         ]);
-        $this->recordHistory();
-    }
-
-    protected function recordHistory(): void
-    {
-        $this->history()->create([
-            'price' => $this->price,
-            'in_stock' => $this->in_stock,
-            'product_id' => $this->product_id
-        ]);
+        $callback && $callback($this);
 
          }
 
