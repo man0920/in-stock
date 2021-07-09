@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Product;
 use RetailerWithProductSeeder;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TrackCommandTest extends TestCase
@@ -15,13 +14,11 @@ class TrackCommandTest extends TestCase
     /** @test */
     function it_tracks_product_stock()
    {
-         Notification::fake();
-        $this->seed(RetailerWithProductSeeder::class);
+          $this->seed(RetailerWithProductSeeder::class);
 
         $this->assertFalse(Product::first()->inStock());
         $this->mockClientRequest();
-            $this->artisan('track')
-                        ->expectsOutput('All done!');
-                        $this->assertTrue(Product::first()->inStock());
+            $this->artisan('track');
+                         $this->assertTrue(Product::first()->inStock());
                 }
                             }
